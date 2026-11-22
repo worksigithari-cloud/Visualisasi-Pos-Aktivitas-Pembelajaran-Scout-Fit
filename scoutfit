@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisasi Permainan Scout-Fit</title>
+    <!-- Memuat Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        
+        .runner {
+            animation: runCircuit 12s infinite;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .runner-2 {
+            animation: runCircuit 12s infinite;
+            animation-delay: 6s; /* Regu B mulai sedikit berbeda waktunya jika ingin variasi, tapi di sini kita biarkan sama untuk kemudahan visual */
+            position: absolute;
+            z-index: 10;
+        }
+
+        /* Keyframes lintasan pelari: Maju lewat rintangan, lari kembali lewat jalur luar */
+        @keyframes runCircuit {
+            0% { left: 5%; top: 40%; opacity: 1; transform: scaleX(1); }
+            /* Pos 1: Zig Zag */
+            10% { left: 20%; top: 20%; }
+            15% { left: 30%; top: 60%; }
+            20% { left: 40%; top: 40%; }
+            /* Pos 2: Lompat Cone */
+            30% { left: 50%; top: 20%; } /* Melompat */
+            35% { left: 60%; top: 40%; }
+            /* Pos 3: Push Up Modifikasi */
+            45% { left: 70%; top: 50%; }
+            50% { left: 75%; top: 30%; }
+            55% { left: 80%; top: 50%; }
+            /* Ambil Sandi */
+            60% { left: 90%; top: 40%; transform: scaleX(1); }
+            65% { left: 90%; top: 40%; transform: scaleX(-1); } /* Berbalik arah */
+            /* Sprint Kembali (Jalur lurus di bawah lintasan) */
+            70% { left: 90%; top: 85%; transform: scaleX(-1); }
+            95% { left: 5%; top: 85%; transform: scaleX(-1); }
+            98% { left: 5%; top: 40%; transform: scaleX(1); opacity: 1;}
+            100% { left: 5%; top: 40%; opacity: 0; }
+        }
+
+        .zigzag-line {
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, #fbbf24 10px, #fbbf24 20px);
+        }
+        
+        /* Lapangan scrollable untuk mobile */
+        .field-container {
+            min-width: 800px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 text-gray-800">
+
+    <header class="max-w-5xl mx-auto mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h1 class="text-3xl font-bold text-emerald-700 mb-2">Visualisasi Model Pembelajaran "Scout-Fit"</h1>
+        <p class="text-gray-600">Integrasi Sirkuit Gerak Dasar & Pemecahan Sandi Kepramukaan</p>
+        <div class="mt-4 flex flex-wrap justify-center gap-3 text-sm">
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">🏃‍♂️ Motorik: Kelincahan, Kecepatan & Kekuatan</span>
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-medium">🧩 Kognitif: Pemecahan Masalah, Analisis</span>
+            <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-medium">🤝 Afektif: Gotong Royong, Kolaboratif</span>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto">
+        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-lg border border-gray-200 overflow-x-auto relative">
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-bold text-gray-700">Denah Sirkuit Lapangan</h2>
+                <p class="text-sm text-gray-500">Animasi menunjukkan alur pergerakan 1 siklus pelari</p>
+            </div>
+
+            <!-- Kontainer Lapangan Utama (Hijau) -->
+            <div class="field-container bg-emerald-500 rounded-xl p-4 relative overflow-hidden shadow-inner h-[400px] flex flex-col justify-around border-4 border-emerald-600">
+                
+                <!-- Garis Lapangan -->
+                <div class="absolute inset-4 border-2 border-white/50 rounded-lg pointer-events-none"></div>
+                <div class="absolute left-1/2 top-4 bottom-4 border-l-2 border-white/50 border-dashed pointer-events-none"></div>
+
+                <!-- Lintasan Regu A -->
+                <div class="relative w-full h-32 bg-emerald-600/30 rounded-lg border border-emerald-400/50 flex items-center mb-4">
+                    
+                    <!-- Animasi Pelari Regu A -->
+                    <div class="runner text-3xl drop-shadow-md">🏃‍♂️</div>
+
+                    <!-- Zona Kiri: Basecamp -->
+                    <div class="w-[15%] h-full flex flex-col items-center justify-center border-r-2 border-white/30 bg-white/10 rounded-l-lg z-0">
+                        <div class="text-white font-bold mb-2">Basecamp A</div>
+                        <div class="flex gap-1">
+                            <span class="text-2xl" title="Siswa Menunggu">🧍‍♂️</span>
+                            <span class="text-2xl" title="Siswa Menunggu">🧍‍♀️</span>
+                            <span class="text-2xl" title="Siswa Menunggu">🧍‍♂️</span>
+                        </div>
+                    </div>
+
+                    <!-- Area Tengah: Sirkuit -->
+                    <div class="w-[70%] h-full flex items-center justify-between px-8 relative">
+                        <!-- Jalur kembali (Sprint) -->
+                        <div class="absolute bottom-2 left-0 right-0 h-4 zigzag-line opacity-50 rounded" title="Jalur Sprint Kembali"></div>
+                        <div class="absolute bottom-[-5px] left-[40%] text-white/80 text-xs font-bold uppercase tracking-widest">Jalur Sprint Kembali &rarr;</div>
+
+                        <!-- Pos 1: Zig Zag -->
+                        <div class="flex flex-col items-center">
+                            <span class="bg-white text-emerald-800 text-xs font-bold px-2 py-1 rounded mb-2 shadow">Pos 1: Zig-zag</span>
+                            <div class="flex flex-wrap w-24 h-16 justify-between items-center relative">
+                                <span class="text-2xl absolute top-0 left-0">🔺</span>
+                                <span class="text-2xl absolute bottom-0 left-1/3">🔺</span>
+                                <span class="text-2xl absolute top-0 right-1/3">🔺</span>
+                                <span class="text-2xl absolute bottom-0 right-0">🔺</span>
+                            </div>
+                        </div>
+
+                        <div class="text-white/50 text-2xl">&rarr;</div>
+
+                        <!-- Pos 2: Lompat Gawang -->
+                        <div class="flex flex-col items-center">
+                            <span class="bg-white text-emerald-800 text-xs font-bold px-2 py-1 rounded mb-2 shadow">Pos 2: Gawang</span>
+                            <div class="flex gap-4 items-center h-16">
+                                <span class="text-3xl">🚧</span>
+                                <span class="text-3xl">🚧</span>
+                            </div>
+                        </div>
+
+                        <div class="text-white/50 text-2xl">&rarr;</div>
+
+                        <!-- Pos 3: Push Up Modifikasi -->
+                        <div class="flex flex-col items-center">
+                            <span class="bg-white text-emerald-800 text-xs font-bold px-2 py-1 rounded mb-2 shadow">Pos 3: Push Up Modifikasi</span>
+                            <div class="flex flex-wrap w-24 h-16 relative">
+                                <span class="text-2xl absolute bottom-0 left-0">⭕</span>
+                                <span class="text-2xl absolute top-0 left-1/3">⭕</span>
+                                <span class="text-2xl absolute bottom-0 right-0">⭕</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zona Kanan: Kotak Sandi -->
+                    <div class="w-[15%] h-full flex flex-col items-center justify-center border-l-2 border-white/30 bg-white/10 rounded-r-lg">
+                        <div class="text-white font-bold mb-2 text-center text-sm">Kotak<br>Sandi</div>
+                        <span class="text-4xl drop-shadow-lg cursor-help" title="Berisi potongan puzzle/sandi">📦</span>
+                    </div>
+                </div>
+
+                <!-- Lintasan Regu B (Sama bentuknya, hanya variasi visual) -->
+                <div class="relative w-full h-32 bg-emerald-600/30 rounded-lg border border-emerald-400/50 flex items-center">
+                    
+                    <!-- Animasi Pelari Regu B -->
+                    <div class="runner-2 text-3xl drop-shadow-md">🏃‍♀️</div>
+
+                    <!-- Zona Kiri: Basecamp -->
+                    <div class="w-[15%] h-full flex flex-col items-center justify-center border-r-2 border-white/30 bg-white/10 rounded-l-lg z-0">
+                        <div class="text-white font-bold mb-2">Basecamp B</div>
+                        <div class="flex gap-1">
+                            <span class="text-2xl">🧍‍♀️</span>
+                            <span class="text-2xl">🧍‍♂️</span>
+                            <span class="text-2xl">🧍‍♀️</span>
+                        </div>
+                    </div>
+
+                    <!-- Area Tengah: Sirkuit -->
+                    <div class="w-[70%] h-full flex items-center justify-between px-8 relative">
+                        <!-- Jalur kembali (Sprint) -->
+                        <div class="absolute bottom-2 left-0 right-0 h-4 zigzag-line opacity-50 rounded"></div>
+                        <div class="absolute bottom-[-5px] left-[40%] text-white/80 text-xs font-bold uppercase tracking-widest">Jalur Sprint Kembali &rarr;</div>
+
+                        <!-- Pos 1: Zig Zag -->
+                        <div class="flex flex-col items-center">
+                            <span class="bg-white text-emerald-800 text-xs font-bold px-2 py-1 rounded mb-2 shadow">Pos 1: Zig-zag</span>
+                            <div class="flex flex-wrap w-24 h-16 justify-between items-center relative">
+                                <span class="text-2xl absolute top-0 left-0">🔺</span>
+                                <span class="text-2xl absolute bottom-0 left-1/3">🔺</span>
+                                <span class="text-2xl absolute top-0 right-1/3">🔺</span>
+                                <span class="text-2xl absolute bottom-0 right-0">🔺</span>
+                            </div>
+                        </div>
+
+                        <div class="text-white/50 text-2xl">&rarr;</div>
+
+                        <!-- Pos 2: Lompat Gawang -->
+                        <div class="flex flex-col items-center">
+                            <span class="bg-white text-emerald-800 text-xs font-bold px-2 py-1 rounded mb-2 shadow">Pos 2: Gawang</span>
+                            <div class="flex gap-4 items-center h-16">
+                                <span class="text-3xl">🚧</span>
+                                <span class="text-3xl">🚧</span>
+                            </div>
+                        </div>
+
+                        <div class="text-white/50 text-2xl">&rarr;</div>
+
+                        <!-- Pos 3: Engklek Simpai -->
+                        <div class="flex flex-col items-center">
+                            <span class="bg-white text-emerald-800 text-xs font-bold px-2 py-1 rounded mb-2 shadow">Pos 3: Simpai</span>
+                            <div class="flex flex-wrap w-24 h-16 relative">
+                                <span class="text-2xl absolute bottom-0 left-0">⭕</span>
+                                <span class="text-2xl absolute top-0 left-1/3">⭕</span>
+                                <span class="text-2xl absolute bottom-0 right-0">⭕</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zona Kanan: Kotak Sandi -->
+                    <div class="w-[15%] h-full flex flex-col items-center justify-center border-l-2 border-white/30 bg-white/10 rounded-r-lg">
+                        <div class="text-white font-bold mb-2 text-center text-sm">Kotak<br>Sandi</div>
+                        <span class="text-4xl drop-shadow-lg cursor-help" title="Berisi potongan puzzle/sandi">📦</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Langkah 1 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-xl mb-4">1</div>
+                <h3 class="font-bold text-gray-800 mb-2">Persiapan di Basecamp</h3>
+                <p class="text-sm text-gray-600 text-justify">Siswa dibagi menjadi regu (4-5 anak) berbaris di belakang garis Start.</p>
+            </div>
+
+            <!-- Langkah 2 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+                <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-xl mb-4">2</div>
+                <h3 class="font-bold text-gray-800 mb-2">Melewati Sirkuit</h3>
+                <p class="text-sm text-gray-600 text-justify">Pelari pertama melewati Pos 1 (Kelincahan), Pos 2 (Daya Ledak Otot/Lompat), dan Pos 3 (Kekuatan:Push Up Modifikasi).</p>
+            </div>
+
+            <!-- Langkah 3 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+                <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center font-bold text-xl mb-4">3</div>
+                <h3 class="font-bold text-gray-800 mb-2">Ambil Sandi & Sprint</h3>
+                <p class="text-sm text-gray-600 text-justify">Tiba di kotak ujung, ambil <b>HANYA SATU</b> potongan kartu sandi. Lalu lari <i>sprint</i> lurus (tanpa rintangan) kembali ke Basecamp untuk <i>high-five</i> pelari berikutnya.</p>
+            </div>
+
+            <!-- Langkah 4 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">Klimaks</div>
+                <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xl mb-4">4</div>
+                <h3 class="font-bold text-gray-800 mb-2">Dekode Sandi</h3>
+                <p class="text-sm text-gray-600 text-justify">Setelah semua kartu terkumpul dan semua anak berlari, regu berdiskusi memecahkan sandi rahasia (Cth: B-U-G-A-R) lalu meneriakkannya bersama-sama.</p>
+            </div>
+        </div>
+        
+    </main>
+
+    <footer class="max-w-5xl mx-auto mt-12 mb-8 text-center text-sm text-gray-400">
+        <p>Aktivitas Pembelajaran Aktif & Bugar PJOK Kelas 4 SD &copy; </p>
+    </footer>
+
+</body>
+</html>
